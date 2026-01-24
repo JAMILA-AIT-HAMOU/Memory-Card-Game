@@ -1,0 +1,13 @@
+:root{
+  --back-color:#fe9849;
+  --card-color:#8c3f04;
+  --hover-color:#632d03;
+}
+body{
+  background-color: var(--back-color);
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

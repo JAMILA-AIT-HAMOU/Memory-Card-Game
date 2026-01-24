@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
@@ -43,6 +41,16 @@ function App() {
   },{
     id:8,
     text:"D",
+    lockBoard:false,
+    matched:false,
+  },{
+    id:9,
+    text:"E",
+    lockBoard:false,
+    matched:false,
+  },{
+    id:10,
+    text:"E",
     lockBoard:false,
     matched:false,
   },
