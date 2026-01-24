@@ -1,0 +1,14 @@
+
+#cards{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 12px;
+}
+#card{
+  width: 95%;
+  height: 200px;
+  border: 2px solid grey;
+  background-color: grey;
+  border-radius: 2%;
+}
