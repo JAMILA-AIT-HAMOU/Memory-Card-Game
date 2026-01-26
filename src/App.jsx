@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import Confetti from "react-confetti";
 
 function App() {
   const cardsArr = [
@@ -152,6 +153,16 @@ function App() {
 
   return (
     <section>
+      {allMatched && (
+        <Confetti 
+          width={window.innerWidth}
+          height={window.innerHeight}
+          numberOfPieces={500}
+           colors={[
+            "#fb730a", "#632d03", "#ffffffff"
+          ]}
+          recycle/>
+      )}
       <h1>Memory Card Game</h1>
       <div className="display">
         <p id="moves">
