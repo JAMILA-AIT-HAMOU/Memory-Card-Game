@@ -3,7 +3,7 @@ section{
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 4rem auto;
+  margin: auto;
   padding: 0 1rem;
 }
 h1{
@@ -37,3 +37,35 @@ h1{
   background-color: var(--hover-color);
   transform: scale(1.05);
 }
+.display{
+  display: flex;
+  flex-direction: row;
+  gap: 8rem;
+}
+#moves,#timer{
+  background-color: white;
+  padding:0.5rem 2rem;
+  font-size: 2rem;
+  border-radius: 5px;
+  display: flex;
+  justify-content: left;
+}
+span{
+  background-color: var(--card-color);
+  color: white;
+  padding:0 5px;
+  border-radius: 50%;
+  margin:0 5px;
+}
+.result{
+  background-color: var(--card-color);
+  color: white;
+  font-size: 2rem;
+  font-weight: bolder;
+  padding: 0 4rem;
+  margin-top: 4rem;
+  border: 2px solid rgb(180, 178, 178);
+  border-radius: 8px;
+  transition: 0.5s ease-in-out;
+}
+ 

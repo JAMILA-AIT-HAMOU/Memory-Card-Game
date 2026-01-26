@@ -1,142 +1,189 @@
-import { useEffect, useState } from 'react'
-import './App.css'
+import { useEffect, useState } from "react";
+import "./App.css";
 
 function App() {
-  
-  const cardsArr=[{
-    id:1,
-    text:"A",
-    lockBoard:false,
-    matched:false,
-  },{
-    id:2,
-    text:"B",
-    lockBoard:false,
-    matched:false,
-  },{
-    id:3,
-    text:"C",
-    lockBoard:false,
-    matched:false,
-  },{
-    id:4,
-    text:"A",
-    lockBoard:false,
-    matched:false,
-  },{
-    id:5,
-    text:"C",
-    lockBoard:false,
-    matched:false,
-  },{
-    id:6,
-    text:"B",
-    lockBoard:false,
-    matched:false,
-  },{
-    id:7,
-    text:"D",
-    lockBoard:false,
-    matched:false,
-  },{
-    id:8,
-    text:"D",
-    lockBoard:false,
-    matched:false,
-  },{
-    id:9,
-    text:"E",
-    lockBoard:false,
-    matched:false,
-  },{
-    id:10,
-    text:"E",
-    lockBoard:false,
-    matched:false,
-  },
-]
+  const cardsArr = [
+    {
+      id: 1,
+      text: "A",
 
-  const [cards, setCards]=useState(cardsArr)
-  const [firstCard, setFirstCard]=useState(null)
-  const [secondCard, setScondCard]=useState(null)
-  const [lockBoard, setLockBoard]=useState(false)
+      matched: false,
+    },
+    {
+      id: 2,
+      text: "B",
 
-  
-  
+      matched: false,
+    },
+    {
+      id: 3,
+      text: "C",
 
-  
-  
-  
-  function flipCard(card){
-    if(lockBoard) return
-    if(card.matched) return;
-    if(card===firstCard) return
-    if (!firstCard){
-      setFirstCard(card) 
-      console.log("its the first")
-      return
+      matched: false,
+    },
+    {
+      id: 4,
+      text: "A",
+
+      matched: false,
+    },
+    {
+      id: 5,
+      text: "C",
+
+      matched: false,
+    },
+    {
+      id: 6,
+      text: "B",
+
+      matched: false,
+    },
+    {
+      id: 7,
+      text: "D",
+
+      matched: false,
+    },
+    {
+      id: 8,
+      text: "D",
+
+      matched: false,
+    },
+    {
+      id: 9,
+      text: "E",
+
+      matched: false,
+    },
+    {
+      id: 10,
+      text: "E",
+
+      matched: false,
+    },
+  ];
+
+  const [cards, setCards] = useState(cardsArr);
+  const [firstCard, setFirstCard] = useState(null);
+  const [secondCard, setScondCard] = useState(null);
+  const [lockBoard, setLockBoard] = useState(false);
+  const [moves, setMoves] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(25);
+  const [isRunning, setIsRunning] = useState(false);
+  const [gameOver, setGameOver] = useState(false);
+
+  const allMatched = cards.every((card) => card.matched);
+
+  function flipCard(card) {
+    if (!isRunning) setIsRunning(true);
+    if (lockBoard) return;
+    if (card.matched) return;
+    if (card === firstCard) return;
+    if (!firstCard) {
+      setFirstCard(card);
+      return;
+    } else {
+      setMoves((prev) => prev + 1);
+      setScondCard(card);
+      setLockBoard(true);
     }
-    else{
-      setScondCard(card)
-      console.log("its the second")
-      setLockBoard(true)
-      
-      
-    }
-    
   }
-  function restTurn(){
-    setFirstCard(null)
-    setScondCard(null)
-    setLockBoard(false)
+  function restTurn() {
+    setFirstCard(null);
+    setScondCard(null);
+    setLockBoard(false);
+  }
+  useEffect(() => {
+    if (!isRunning || allMatched) return;
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if(prev === 1){
+          clearInterval(timer)
+          return 0
+        }
+        return prev - 1
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [isRunning, allMatched]);
+
+  useEffect(() => {
+    if (!firstCard || !secondCard) return;
+    if (firstCard.text === secondCard.text) {
+      setCards((prev) =>
+        prev.map((card) =>
+          card.text === firstCard.text ? { ...card, matched: true } : card,
+        ),
+      );
+
+      restTurn();
+    } else {
+      setTimeout(() => {
+        restTurn();
+      }, 1500);
+    }
+  }, [firstCard, secondCard]);
+
+  function shuffleArray(array) {
+    return [...array].sort(() => Math.random() - 0.5);
   }
 
-  useEffect(()=>{
-    if(!firstCard || !secondCard) return
-    if(firstCard.text===secondCard.text){
-      setCards(prev=>prev.map(card=>(
-        card.text===firstCard.text ? {...card, matched:true}: card)
-      ))
-      
-      console.log("match")
-      restTurn()
-    }else{
-      console.log("not matched")
-      setTimeout(()=>{
-        restTurn()
-      }, 1500)
+  useEffect(() => {
+    if (timeLeft === 0 && !allMatched) {
+      setIsRunning(false);
+      setGameOver(true);
     }
-
-
-  }, [firstCard, secondCard])
-
-  const allMatched= cards.every(card=>card.matched)
-  function shuffleArray(array){
-    return [...array].sort(()=>Math.random()  - 0.5)
-  }
-
-  useEffect(()=>{
-    if(allMatched){
-      setTimeout(()=>{
-        setCards(shuffleArray(cards.map(card=>({...card, matched:false}))))
-        restTurn()
-      }, 1500)
+    if (allMatched) {
+      /*
+      setTimeout(() => {
+        setCards(
+          shuffleArray(cards.map((card) => ({ ...card, matched: false }))),
+        );
+        
+      }, 1500);
+      */
+      setIsRunning(false);
+      setGameOver(true);
     }
-
-  }, [allMatched])
+  }, [allMatched, timeLeft]);
 
   return (
     <section>
       <h1>Memory Card Game</h1>
-      <div id="cards">
-        {cards.map(card=>(
-          <button id="card" key={card.id}  disabled={lockBoard || card.matched} onClick={()=>flipCard(card)}>{card===firstCard || card===secondCard || card.matched ? card.text : "?"}</button>
-        ))}
-        
+      <div className="display">
+        <p id="moves">
+          <span>{moves}</span> {moves === 1 ? "Move" : "Moves"}
+        </p>
+        <p id="timer">
+          Timer:<span>{timeLeft}s</span>
+        </p>
       </div>
+      {!gameOver ? (
+        <div id="cards">
+          {cards.map((card) => (
+            <button
+              id="card"
+              key={card.id}
+              disabled={lockBoard || card.matched}
+              onClick={() => flipCard(card)}
+            >
+              {card === firstCard || card === secondCard || card.matched
+                ? card.text
+                : "?"}
+            </button>
+          ))}
+        </div>
+      ) : (
+        <div className="result">
+          {timeLeft === 0 && !allMatched && <p>Time's up! You lose 😢</p>}
+          {allMatched && <p>🎉 Congratulations! You won in {moves} moves! 🎉</p>}
+        </div>
+      )}
     </section>
-
-  )
+  );
 }
 
-export default App
+export default App;
