@@ -71,7 +71,7 @@ function App() {
   const [secondCard, setSecondCard] = useState(null);
   const [lockBoard, setLockBoard] = useState(false);
   const [moves, setMoves] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(5);
+  const [timeLeft, setTimeLeft] = useState(25);
   const [isRunning, setIsRunning] = useState(false);
   const [gameOver, setGameOver] = useState(false);
 
@@ -130,6 +130,14 @@ function App() {
 
   function shuffleArray(array) {
     return [...array].sort(() => Math.random() - 0.5);
+  }
+  function reserGame(){
+    setCards(shuffleArray(cardsArr.map(card=>({...card, matched:false}))))
+    restTurn()
+    setMoves(0)
+    setTimeLeft(25)
+    setIsRunning(false)
+    setGameOver(false)
   }
 
   useEffect(() => {
@@ -191,6 +199,7 @@ function App() {
         <div className="result">
           {timeLeft === 0 && !allMatched && <p>Time's up! You lose 😢</p>}
           {allMatched && <p>🎉 Congratulations! You won in {moves} moves! 🎉</p>}
+          <button className="restart-btn" onClick={reserGame}>Play Again</button>
         </div>
       )}
     </section>
