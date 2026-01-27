@@ -71,7 +71,7 @@ function App() {
   const [secondCard, setSecondCard] = useState(null);
   const [lockBoard, setLockBoard] = useState(false);
   const [moves, setMoves] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(25);
+  const [timeLeft, setTimeLeft] = useState(5);
   const [isRunning, setIsRunning] = useState(false);
   const [gameOver, setGameOver] = useState(false);
 
@@ -152,7 +152,7 @@ function App() {
   }, [allMatched, timeLeft]);
 
   return (
-    <section>
+    <section >
       {allMatched && (
         <Confetti 
           width={window.innerWidth}
@@ -164,7 +164,7 @@ function App() {
           recycle={false}/>
       )}
       <h1>Memory Card Game</h1>
-      <div className="display">
+      <div className={gameOver && timeLeft===0 ? "display shake" : "display"}>
         <p id="moves">
           <span>{moves}</span> {moves === 1 ? "Move" : "Moves"}
         </p>
