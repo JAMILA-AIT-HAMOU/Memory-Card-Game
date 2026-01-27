@@ -68,7 +68,7 @@ function App() {
 
   const [cards, setCards] = useState(cardsArr);
   const [firstCard, setFirstCard] = useState(null);
-  const [secondCard, setScondCard] = useState(null);
+  const [secondCard, setSecondCard] = useState(null);
   const [lockBoard, setLockBoard] = useState(false);
   const [moves, setMoves] = useState(0);
   const [timeLeft, setTimeLeft] = useState(25);
@@ -87,13 +87,13 @@ function App() {
       return;
     } else {
       setMoves((prev) => prev + 1);
-      setScondCard(card);
+      setSecondCard(card);
       setLockBoard(true);
     }
   }
   function restTurn() {
     setFirstCard(null);
-    setScondCard(null);
+    setSecondCard(null);
     setLockBoard(false);
   }
   useEffect(() => {
@@ -157,11 +157,11 @@ function App() {
         <Confetti 
           width={window.innerWidth}
           height={window.innerHeight}
-          numberOfPieces={500}
+          numberOfPieces={2000}
            colors={[
             "#fb730a", "#632d03", "#ffffffff"
           ]}
-          recycle/>
+          recycle={false}/>
       )}
       <h1>Memory Card Game</h1>
       <div className="display">
