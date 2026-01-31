@@ -65,8 +65,11 @@ function App() {
       matched: false,
     },
   ];
+  function shuffleArray(array) {
+    return [...array].sort(() => Math.random() - 0.5);
+  }
 
-  const [cards, setCards] = useState(cardsArr);
+  const [cards, setCards] = useState(()=>shuffleArray(cardsArr));
   const [firstCard, setFirstCard] = useState(null);
   const [secondCard, setSecondCard] = useState(null);
   const [lockBoard, setLockBoard] = useState(false);
@@ -97,6 +100,7 @@ function App() {
     setLockBoard(false);
   }
   useEffect(() => {
+    
     if (!isRunning || allMatched) return;
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
@@ -128,10 +132,8 @@ function App() {
     }
   }, [firstCard, secondCard]);
 
-  function shuffleArray(array) {
-    return [...array].sort(() => Math.random() - 0.5);
-  }
-  function reserGame(){
+  
+  function resetGame(){
     setCards(shuffleArray(cardsArr.map(card=>({...card, matched:false}))))
     restTurn()
     setMoves(0)
@@ -184,7 +186,8 @@ function App() {
         <div id="cards">
           {cards.map((card) => (
             <button
-              id="card"
+              className={`card ${card=== firstCard || card===secondCard || card.matched? "card--flipped" : ""}`}
+              
               key={card.id}
               disabled={lockBoard || card.matched}
               onClick={() => flipCard(card)}
@@ -198,8 +201,8 @@ function App() {
       ) : (
         <div className="result">
           {timeLeft === 0 && !allMatched && <p>Time's up! You lose 😢</p>}
-          {allMatched && <p>🎉 Congratulations! You won in {moves} moves! 🎉</p>}
-          <button className="restart-btn" onClick={reserGame}>Play Again</button>
+          {allMatched && <p>🎉 Congratulations! You won in {moves} moves, {timeLeft}s! 🎉</p>}
+          <button className="restart-btn" onClick={resetGame}>Play Again</button>
         </div>
       )}
     </section>
