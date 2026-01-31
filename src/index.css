@@ -2,6 +2,7 @@
   --back-color:#fe9849;
   --card-color:#8c3f04;
   --hover-color:#632d03;
+  --zellige-color:#764d0f;
 }
 body{
   background-color: var(--back-color);

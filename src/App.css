@@ -24,27 +24,35 @@ h1{
 .card{
   width: 130px;
   height: 200px;
-  border: 2px solid white;
-  background-color:var(--card-color);
+  border: 3px solid white;
+   background:
+    linear-gradient(135deg,var(--zellige-color) 25%, transparent 25%) -20px 0,
+    linear-gradient(225deg, var(--zellige-color) 25%, transparent 25%) -20px 0,
+    linear-gradient(315deg,var(--zellige-color) 25%, transparent 25%),
+    linear-gradient(45deg,var(--zellige-color)  25%, transparent 25%);
+  background-size: 40px 40px;
+  background-color: #a86e26;
   color:white;
   border-radius: 5%;
   font-size: 30px;
   font-weight: bold;
   transition: 0.4s ease-in-out;
+  box-shadow: 0 5px 12px black;
 }
+
 .card:hover{
   cursor: pointer;
   background-color: var(--hover-color);
   transform: scale(1.05);
 }
 .card--flipped{
-  background-color: grey;
+  background:var(--card-color);
   color: white;
   transform: scale(1.05);
+  box-shadow: 0 5px 12px white;
 }
 .card--flipped:hover{
    cursor: pointer;
-  background-color: grey;
   transform: scale(1.05);
 }
 .card--flipped:disabled{
