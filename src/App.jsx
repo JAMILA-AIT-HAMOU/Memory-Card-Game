@@ -1,73 +1,15 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import Confetti from "react-confetti";
+import Card from "./components/Card";
+import cardsArr from "./data";
+import shuffleArray from "./utils";
+
+
 
 function App() {
-  const cardsArr = [
-    {
-      id: 1,
-      text: "A",
-
-      matched: false,
-    },
-    {
-      id: 2,
-      text: "B",
-
-      matched: false,
-    },
-    {
-      id: 3,
-      text: "C",
-
-      matched: false,
-    },
-    {
-      id: 4,
-      text: "A",
-
-      matched: false,
-    },
-    {
-      id: 5,
-      text: "C",
-
-      matched: false,
-    },
-    {
-      id: 6,
-      text: "B",
-
-      matched: false,
-    },
-    {
-      id: 7,
-      text: "D",
-
-      matched: false,
-    },
-    {
-      id: 8,
-      text: "D",
-
-      matched: false,
-    },
-    {
-      id: 9,
-      text: "E",
-
-      matched: false,
-    },
-    {
-      id: 10,
-      text: "E",
-
-      matched: false,
-    },
-  ];
-  function shuffleArray(array) {
-    return [...array].sort(() => Math.random() - 0.5);
-  }
+  
+  
 
   const [cards, setCards] = useState(()=>shuffleArray(cardsArr));
   const [firstCard, setFirstCard] = useState(null);
@@ -79,6 +21,8 @@ function App() {
   const [gameOver, setGameOver] = useState(false);
 
   const allMatched = cards.every((card) => card.matched);
+  const isWin=allMatched;
+  const isLose=timeLeft===0 && !allMatched
 
   function flipCard(card) {
     if (!isRunning) setIsRunning(true);
@@ -184,24 +128,30 @@ function App() {
       </div>
       {!gameOver ? (
         <div id="cards">
-          {cards.map((card) => (
-            <button
-              className={`card ${card=== firstCard || card===secondCard || card.matched? "card--flipped" : ""}`}
-              
+          {cards.map((card) =>{ 
+            const isFlipped=card===firstCard || card ===secondCard || card.matched
+            return (
+              <Card 
+                id={card.id}
+                isFlipped={isFlipped}
+                disabled={lockBoard || card.matched}
+                onClick={() => flipCard(card)}
+                text={card.text}/>
+            
+            /*<button
               key={card.id}
+              className={`card ${isFlipped ? "card--flipped" : ""}`}
               disabled={lockBoard || card.matched}
               onClick={() => flipCard(card)}
             >
-              {card === firstCard || card === secondCard || card.matched
-                ? card.text
-                : "?"}
-            </button>
-          ))}
+              {isFlipped ? card.text: "?"}
+            </button>*/
+          )})}
         </div>
       ) : (
         <div className="result">
-          {timeLeft === 0 && !allMatched && <p>Time's up! You lose 😢</p>}
-          {allMatched && <p>🎉 Congratulations! You won in {moves} moves, {timeLeft}s! 🎉</p>}
+          {isLose && <p>Time's up! You lose 😢</p>}
+          {isWin && <p>🎉 Congratulations! You won in {moves} moves, {timeLeft}s! 🎉</p>}
           <button className="restart-btn" onClick={resetGame}>Play Again</button>
         </div>
       )}

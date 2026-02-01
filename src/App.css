@@ -45,6 +45,10 @@ h1{
   background-color: var(--hover-color);
   transform: scale(1.05);
 }
+.card:disabled{
+  cursor: not-allowed;
+  opacity:0.9 ;
+}
 .card--flipped{
   background:var(--card-color);
   color: white;
@@ -132,3 +136,10 @@ span{
 .shake{
   animation: shake 1s ease-in-out;
 }
+
+
+
+
+
+
+
