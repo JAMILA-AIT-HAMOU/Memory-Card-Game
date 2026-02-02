@@ -1,9 +1,8 @@
 import React from "react";
 
-function Card({id, isFlipped, disabled, onClick, text}){
+function Card({isFlipped, disabled, onClick, text}){
   return(
     <button
-      key={id}
       className={`card ${isFlipped ? "card--flipped" : ""}`}
       disabled={disabled}
       onClick={onClick}
