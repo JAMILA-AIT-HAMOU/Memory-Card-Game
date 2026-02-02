@@ -137,6 +137,51 @@ span{
   animation: shake 1s ease-in-out;
 }
 
+@media(max-width:700px){
+  #cards{
+    
+  grid-template-columns: repeat(3, 1fr);
+  
+  }
+  .display{
+    gap:3rem;
+  }
+
+
+}
+@media(max-width:370px){
+  h1{
+    font-size: 1.5rem;
+    
+  padding: 1rem;
+  }
+  #cards{
+    
+  grid-template-columns: repeat(2, 1fr);
+  
+  }
+  .display{
+    gap:1.5rem;
+  }
+  
+#moves,#timer{
+  background-color: white;
+  padding:0.5rem ;
+  font-size: 1.5rem;
+}
+
+.result>p{
+  padding :1.5rem 1rem;
+  margin-top: 2rem;
+  font-size: 1.2rem;
+}
+
+.restart-btn{
+  padding: 0.8rem;
+  font-size: 1.6rem;
+  margin-top: 1rem;
+}
+}
 
 
 

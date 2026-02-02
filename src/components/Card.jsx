@@ -1,3 +1,5 @@
+import React from "react";
+
 function Card({id, isFlipped, disabled, onClick, text}){
   return(
     <button
