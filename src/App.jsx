@@ -27,7 +27,12 @@ function App() {
   const loseAudio = useRef(new Audio(loseSound));
 
   function flipCard(card) {
+    if(gameOver) return
     if (lockBoard || card.matched || card === firstCard) return;
+    
+    flipAudio.current.currentTime = 0;
+    flipAudio.current.play();
+
     if (!isRunning) setIsRunning(true);
     if (!firstCard) {
       setFirstCard(card);
@@ -38,7 +43,7 @@ function App() {
       setLockBoard(true);
     }
   }
-  function restTurn() {
+  function resetTurn() {
     setFirstCard(null);
     setSecondCard(null);
     setLockBoard(false);
@@ -59,12 +64,8 @@ function App() {
   }, [isRunning, allMatched]);
 
   useEffect(() => {
-    
-
-    flipAudio.current.currentTime = 0;
-    flipAudio.current.play();
-
     if (!firstCard || !secondCard) return;
+
     if (firstCard.text === secondCard.text) {
       setCards((prev) =>
         prev.map((card) =>
@@ -72,10 +73,11 @@ function App() {
         ),
       );
 
-      restTurn();
+      resetTurn();
     } else {
       setTimeout(() => {
-        restTurn();
+        resetTurn();
+        flipAudio.current.currentTime=0
         flipAudio.current.play();
       }, 1500);
     }
@@ -85,7 +87,7 @@ function App() {
     setCards(
       shuffleArray(cardsArr.map((card) => ({ ...card, matched: false }))),
     );
-    restTurn();
+    resetTurn();
     setMoves(0);
     setTimeLeft(25);
     setIsRunning(false);
@@ -93,13 +95,14 @@ function App() {
   }
 
   useEffect(() => {
+    if(gameOver) return
     if (timeLeft === 0 && !allMatched) {
       loseAudio.current.play();
       setIsRunning(false);
       setGameOver(true);
     }
     if (allMatched) {
-      winAudio.play();
+      winAudio.current.play();
       setIsRunning(false);
       setGameOver(true);
     }
